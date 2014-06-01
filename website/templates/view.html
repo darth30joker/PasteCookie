@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}{{ paste.title }}{% endblock %}
+{% block content %}
+<div class="row col-md-12">
+	<h4>
+		{{ paste.title }}
+		<span class="ml10 fs13 clc">by</span>
+		<a href="#" class="carte fs13" title="#">
+			noname
+		</a>
+		<span class="ml10 fs13 clc">{{ paste.created_at }}</span>
+	</h4>
+	<div id="code_view" class="row col-md-12">{{ paste.content | safe }}</div>
+	<p class="clearfix mt10">
+		<span class="lf">
+			<a class="btn btn-default" href="javascript:void(0);" onclick="window.open('/paste/view{{ paste.key.id() }}?output=raw', '查看RAW代码', 'height=600,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=yes,location=no,status=no')">查看RAW代码</a>
+		</span>
+	</p>
+	<p class="clearfix"><a class="lf" href="javascript: void(0);" id="show-desc-link">显示描述</a></p>
+	<p id="show-desc-box" style="display: none" class="well"></p>
+</div>
+<!-- JiaThis Button BEGIN -->
+<script type="text/javascript">var jiathis_config = {
+			url:"/paste/view/{{ paste.key.id() }}",
+			title:'我在 #代码段# 分享了 "{{ paste.title }}":'
+		}</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jiathis_r.js?uid=1338135623650157&btn=r5.gif" charset="utf-8"></script>
+{% endblock %}
