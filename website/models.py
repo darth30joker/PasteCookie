@@ -6,3 +6,7 @@ class Paste(ndb.Model):
     content = ndb.TextProperty()
     created_at = ndb.DateTimeProperty(auto_now_add=True)
     updated_at = ndb.DateTimeProperty(auto_now_add=True)
+
+    @property
+    def id(self):
+        return self.key.id()
