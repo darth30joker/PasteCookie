@@ -5,6 +5,10 @@ class UserRef(ndb.Model):
     user = ndb.UserProperty()
     nickname = ndb.StringProperty()
 
+    @property
+    def id(self):
+        return self.key.id()
+
 
 class Paste(ndb.Model):
     user = ndb.UserProperty()
@@ -16,3 +20,7 @@ class Paste(ndb.Model):
     @property
     def id(self):
         return self.key.id()
+
+    @property
+    def user_ref(self):
+        return UserRef.query(UserRef.user == self.user).get()

@@ -2,7 +2,7 @@
 	<p class="pull-left col-md-9 pl0">
 		<a class="mr10 fs14 fwb" href="/paste/view/{{ paste.id }}" title="{{ paste.title }}">{{ paste.title }}</a>
 		<span class="clc mr5">by</span>
-		<a href="#" class="carte fwb" title="noname" data-content="">noname</a>
+        <a href="/user/view/{{ paste.user_ref.id }}/" class="carte fwb" title="noname" data-content="">{{ paste.user_ref.nickname }}</a>
 		<span class="clc">{{ paste.created_at }}</span>
 	</p>
 </div>

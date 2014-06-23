@@ -18,6 +18,14 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True)
 
 
+def login_required(handler):
+    def check_login(self, *args, **kwargs):
+        if not users.get_current_user():
+            self.redirect('/login')
+        return handler(self, *args, **kwargs)
+    return check_login
+
+
 def get_user_dict(user_ref):
     return {'email': user_ref.user.email(),
             'nickname': user_ref.nickname}
@@ -86,15 +94,18 @@ class RegisterPage(Handler):
 
 
 class CreatePaste(Handler):
+    @login_required
     def get(self):
         self.render('create.html')
 
+    @login_required
     def post(self):
         paste = Paste()
         if self.request.get('title', None):
             paste.title = self.request.get('title', None)
         if self.request.get('content', None):
             paste.content = self.request.get('content', None)
+        paste.user = users.get_current_user()
         paste.put()
 
         self.redirect(uri_for('view_paste', key=paste.key.id()))
