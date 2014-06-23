@@ -1,7 +1,13 @@
 from google.appengine.ext import ndb
 
 
+class UserRef(ndb.Model):
+    user = ndb.UserProperty()
+    nickname = ndb.StringProperty()
+
+
 class Paste(ndb.Model):
+    user = ndb.UserProperty()
     title = ndb.StringProperty(indexed=False)
     content = ndb.TextProperty()
     created_at = ndb.DateTimeProperty(auto_now_add=True)

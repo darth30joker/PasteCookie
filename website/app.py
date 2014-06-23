@@ -1,4 +1,9 @@
 import webapp2
 from views import handlers
 
-application = webapp2.WSGIApplication(handlers, debug=True)
+config = {}
+config['webapp2_extras.sessions'] = {
+    'secret_key': 'my-super-secret-key',
+}
+
+application = webapp2.WSGIApplication(handlers, config=config, debug=True)

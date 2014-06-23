@@ -8,25 +8,20 @@
 		<title>{% block title %}最新代码{% endblock %} - 代码段</title>
 		<link rel="shortcut icon" href="/static/images/favicon.ico') }}" />
 		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/monokai.min.css">
+		<link href="http://yandex.st/highlightjs/8.0/styles/monokai.min.css" rel="stylesheet">
 		<script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
-		<!--<script src="//code.jquery.com/jquery.js"></script>-->
 		<script src="/static/js/jquery.min.js"></script>
 		<script src="/static/js/bootstrap.min.js"></script>
-		<script>hljs.initHighlightingOnLoad();</script>
-		<!--
 		<script type="text/javascript">
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-33503286-1']);
-			_gaq.push(['_trackPageview']);
-
-			(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
+		(function() {
+			var po = document.createElement('script');
+			po.type = 'text/javascript'; po.async = true;
+			po.src = 'https://plus.google.com/js/client:plusone.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(po, s);
+		})();
 		</script>
-		-->
+		<script src="/static/js/pastecookie.js"></script>
 		{% block javascript %}{% endblock %}
 	</head>
 	<body>
@@ -46,6 +41,23 @@
 					</form>
 					<a href="/paste/create" class="btn btn-danger navbar-left col-md-2 share-btn"><span class="plus"></span>分享我的代码</a>
 					<ul class="nav navbar-nav navbar-right">
+					{% if user %}
+						<li class="dropdown">
+							<a href="javascript: void(0);" class="dropdown-toggle" data-toggle="dropdown">
+								<img src="" class="lf" />
+								{{ user['nickname'] }}
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="/messages"><i class="icon-envelope"></i> 系统消息</a></li>
+								<li><a href="/manage"><i class="icon-cog"></i> 设置</a></li>
+								<li class="divider"></li>
+								<li><a href="{{ users.create_logout_url('/') }}"><i class="icon-off"></i> 登出</a></li>
+							</ul>
+						</li>
+					{% else %}
+						<li><a href="/login">登录/注册</a></li>
+					{% endif %}
 					</ul>
 				</div>
 			</div>
