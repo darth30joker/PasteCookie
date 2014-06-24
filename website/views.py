@@ -10,6 +10,7 @@ from google.appengine.ext import ndb
 
 from models import Paste
 from models import UserRef
+from models import Tag
 
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -55,6 +56,7 @@ class Handler(webapp2.RequestHandler):
         if not user:
             self.session['user'] = None
         values['user'] = self.session['user']
+        values['uri_for'] = webapp2.uri_for
         self.response.write(template.render(values))
 
 
@@ -105,6 +107,17 @@ class CreatePaste(Handler):
             paste.title = self.request.get('title', None)
         if self.request.get('content', None):
             paste.content = self.request.get('content', None)
+        if self.request.get('tags', None):
+            tags = self.request.get('tags').split()
+            for tag in tags:
+                tag_obj = Tag.query(Tag.name == tag).get()
+                if tag_obj:
+                    tag_obj.counts += 1
+                    tag_obj.put()
+                else:
+                    tag_obj = Tag(name=tag)
+                    tag_obj.put()
+                paste.tags.append(tag_obj)
         paste.user = users.get_current_user()
         paste.put()
 
@@ -117,10 +130,37 @@ class ViewPaste(Handler):
         self.render('view.html', paste=paste)
 
 
+class TagsPage(Handler):
+    def get(self):
+        self.render('tags.html', tags=Tag.query())
+
+
+class ViewTag(Handler):
+    def get(self, name):
+        tag = Tag.query(Tag.name == name).get()
+        pastes = Paste.query(Paste.tags.IN([tag]))
+        self.render('tag_view.html', tag=tag, pastes=pastes)
+
+
+class RankPage(Handler):
+    def get(self):
+        most_visited_pastes = Paste.query()
+        self.render('rank.html', most_visited_pastes=most_visited_pastes)
+
+
+class ViewUser(Handler):
+    def get(self, slug):
+        self.response.write("NOT finished")
+
+
 handlers = [
     ('/', MainPage),
     ('/login', LoginPage),
     ('/register', RegisterPage),
     ('/paste/create', CreatePaste),
-    webapp2.Route(r'/paste/view/<key:\d+>', ViewPaste, name='view_paste')
+    ('/rank', RankPage),
+    webapp2.Route(r'/paste/<key:\d+>', ViewPaste, name='view_paste'),
+    ('/tags', TagsPage),
+    webapp2.Route(r'/tag/<name>', ViewTag, name='view_tag'),
+    webapp2.Route(r'/user/<slug>', ViewUser, name='view_user'),
 ]

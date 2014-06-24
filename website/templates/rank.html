@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}排行榜{% endblock %}
+{% block content %}
+<table class="table">
+	<thead>
+		<tr><td>访问最多代码</td></tr>
+	</thead>
+	<tbody>
+	{% for paste in most_visited_pastes %}
+		<tr><td>
+		{% include ('items/_paste_item.html') %}
+		</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+<div class="row col-md-12">
+<button class="btn btn-default btn-block" id="more_button" _page="2">更多</button>
+</div>
+{% endblock %}

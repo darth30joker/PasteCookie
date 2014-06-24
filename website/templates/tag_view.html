@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{{ tag.name }}{% endblock %}
+{% block content %}
+<table class="table">
+	<thead>
+		<tr><td>{{ tag.name }}相关的代码段</td></tr>
+	</thead>
+	<tbody>
+	{% for paste in pastes %}
+		<tr><td>
+		{% include 'items/_paste_item.html' %}
+		</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+<div class="row col-md-12">
+	<button class="btn btn-default btn-block" id="more_button" _id="{{ tag.key.id() }}" _page="2">更多</button>
+</div>
+{% endblock %}

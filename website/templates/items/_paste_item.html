@@ -1,8 +1,8 @@
 <div class="row col-md-12">
 	<p class="pull-left col-md-9 pl0">
-		<a class="mr10 fs14 fwb" href="/paste/view/{{ paste.id }}" title="{{ paste.title }}">{{ paste.title }}</a>
+		<a class="mr10 fs14 fwb" href="{{ uri_for('view_paste', key=paste.id) }}" title="{{ paste.title }}">{{ paste.title }}</a>
 		<span class="clc mr5">by</span>
-        <a href="/user/view/{{ paste.user_ref.id }}/" class="carte fwb" title="noname" data-content="">{{ paste.user_ref.nickname }}</a>
+        <a href="{{ uri_for('view_user', slug=paste.user_ref.id) }}/" class="carte fwb" title="noname" data-content="">{{ paste.user_ref.nickname }}</a>
 		<span class="clc">{{ paste.created_at }}</span>
 	</p>
 </div>

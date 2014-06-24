@@ -8,6 +8,9 @@
         <a href="/user/view/{{ paste.user_ref.id }}/" class="carte fs13" title="#">{{ paste.user_ref.nickname }}</a>
 		<span class="ml10 fs13 clc">{{ paste.created_at }}</span>
 	</h4>
+	<h5>
+		{% for tag in paste.tags %}{% include 'items/_tag.html' %}{% endfor %}
+	</h5>
 	<div id="code_view" class="row col-md-12"><pre><code>{{ paste.content | safe }}</code></pre></div>
 </div>
 {% include 'items/_comments.html' %}
